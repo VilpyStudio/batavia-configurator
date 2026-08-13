@@ -433,7 +433,7 @@
           </div>
           <div class="canvas-frame loading" id="canvas-frame">
             <div class="loader" id="loader">Boot wordt geladen...</div>
-            <canvas id="boat-canvas" width="1085" height="1450" aria-label="Batavia boot met gekozen romp- en kussenkleur"></canvas>
+            <canvas id="boat-canvas" width="1085" height="1450" aria-label="Batavia boot met gekozen romp-, kussen- en teakdeckkleur"></canvas>
           </div>
           <p class="viewer-note">Kleuren op het scherm kunnen afwijken van de werkelijke materialen.</p>
         </section>
@@ -452,6 +452,11 @@
             <div class="control-heading"><h2>Kussens</h2><span id="chosen-cushions">Origineel</span></div>
             <div class="swatches" id="swatches-cushions"></div>
             <button class="original-link" type="button" id="original-cushions">Gebruik originele kleur</button>
+          </section>
+          <section class="control-group" id="panel-teak">
+            <div class="control-heading"><h2>Teakdeck</h2><span id="chosen-teak">Origineel</span></div>
+            <div class="swatches" id="swatches-teak"></div>
+            <button class="original-link" type="button" id="original-teak">Gebruik originele kleur</button>
           </section>
           <button class="download-button" type="button" id="download-button" disabled>
             <span>Download jouw ontwerp</span><span aria-hidden="true">v</span>
@@ -482,9 +487,17 @@
             { name: "Donkerbruin", value: "#49362d" },
             { name: "Marine", value: "#293f55" },
             { name: "Lichtgrijs", value: "#b7b8b5" }
+          ],
+          teak: [
+            { name: "Naturel teak", value: "#c98f4d" },
+            { name: "Honing teak", value: "#d6a864" },
+            { name: "Licht eiken", value: "#d4bd91" },
+            { name: "Vergrijsd teak", value: "#928b7b" },
+            { name: "Walnoot", value: "#7a5439" },
+            { name: "Donker teak", value: "#4f3828" }
           ]
         };
-        var state = { hull: null, cushions: null };
+        var state = { hull: null, cushions: null, teak: null };
         var images = {};
         var loadedCount = 0;
         var resetTimer = null;
@@ -592,7 +605,7 @@
           pixels = imageData.data;
           targetRgb = hexToRgb(color);
           target = rgbToHsl(targetRgb.r, targetRgb.g, targetRgb.b);
-          baseline = layer === "hull" ? 0.21 : 0.5;
+          baseline = layer === "hull" ? 0.21 : layer === "teak" ? 0.66 : 0.5;
           for (i = 0; i < pixels.length; i += 4) {
             if (pixels[i + 3] === 0) continue;
             original = rgbToHsl(pixels[i], pixels[i + 1], pixels[i + 2]);
@@ -610,11 +623,12 @@
         }
 
         function draw() {
-          if (!images.base || !images.hull || !images.cushions) return;
+          if (!images.base || !images.hull || !images.cushions || !images.teak) return;
           context.clearRect(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
           context.drawImage(images.base, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
           context.drawImage(recolorLayer(images.hull, state.hull, "hull"), 0, 0);
           context.drawImage(recolorLayer(images.cushions, state.cushions, "cushions"), 0, 0);
+          context.drawImage(recolorLayer(images.teak, state.teak, "teak"), 0, 0);
         }
 
         function getKnownColor(layer, selected) {
@@ -641,6 +655,7 @@
         function updatePanels() {
           updatePanel("hull");
           updatePanel("cushions");
+          updatePanel("teak");
         }
 
         function resetInactivityTimer() {
@@ -648,6 +663,7 @@
           resetTimer = window.setTimeout(function () {
             state.hull = null;
             state.cushions = null;
+            state.teak = null;
             updatePanels();
             draw();
             window.scrollTo(0, 0);
@@ -687,7 +703,7 @@
           image.onload = function () {
             images[key] = image;
             loadedCount += 1;
-            if (loadedCount === 3) {
+            if (loadedCount === 4) {
               removeClass(frame, "loading");
               addClass(frame, "ready");
               if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
@@ -704,14 +720,17 @@
 
         buildPanel("hull");
         buildPanel("cushions");
+        buildPanel("teak");
         updatePanels();
-        loadImage("base", "images/batavia-base.png?v=3");
-        loadImage("hull", "images/batavia-romp-laag.png?v=3");
-        loadImage("cushions", "images/batavia-kussenset-laag.png?v=3");
+        loadImage("base", "images/batavia-base.png?v=4");
+        loadImage("hull", "images/batavia-romp-laag.png?v=4");
+        loadImage("cushions", "images/batavia-kussenset-laag.png?v=4");
+        loadImage("teak", "images/batavia-teakdeck-laag.png?v=1");
 
         document.getElementById("reset-button").onclick = function () {
           state.hull = null;
           state.cushions = null;
+          state.teak = null;
           updatePanels();
           draw();
           window.scrollTo(0, 0);
