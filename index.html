@@ -93,6 +93,7 @@
       }
 
       .viewer-copy {
+        max-width: 760px;
         position: relative;
         z-index: 2;
       }
@@ -113,11 +114,20 @@
         font-size: 48px;
         font-weight: normal;
         letter-spacing: 0;
+        white-space: nowrap;
+      }
+
+      .viewer-copy p {
+        margin: 12px 0 0;
+        color: #59635d;
+        font-size: 12px;
+        line-height: 1.45;
+        max-width: 440px;
       }
 
       .canvas-frame {
         min-height: 680px;
-        margin: -34px -18px -8px;
+        margin: -54px -18px -8px;
         text-align: center;
         opacity: 1;
         position: relative;
@@ -286,11 +296,22 @@
         cursor: pointer;
         font-size: 16px;
         font-weight: bold;
+        position: relative;
         text-align: left;
       }
 
-      .download-button span:last-child {
-        float: right;
+      .download-button:after {
+        content: "";
+        position: absolute;
+        right: 24px;
+        top: 50%;
+        width: 8px;
+        height: 8px;
+        margin-top: -6px;
+        border: solid #fff;
+        border-width: 0 2px 2px 0;
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
       }
 
       .download-button:disabled {
@@ -305,24 +326,36 @@
       }
 
       .partner-strip {
-        display: table;
-        margin: 0 auto 24px;
-        max-width: 1120px;
-        table-layout: fixed;
-        width: 100%;
+        display: block;
+        margin: 0;
+        max-width: 112px;
+        position: absolute;
+        right: 36px;
+        top: 96px;
+        width: 112px;
+        z-index: 3;
+      }
+
+      .partner-kicker {
+        color: #59635d;
+        display: block;
+        font-size: 12px;
+        margin: 0 0 16px;
+        text-align: left;
       }
 
       .partner-item {
-        display: table-cell;
-        padding: 0 14px;
+        display: block;
+        margin: 0 0 18px;
+        padding: 0;
         text-align: center;
         vertical-align: bottom;
-        width: 33.333%;
+        width: auto;
       }
 
       .partner-title {
         color: #858c87;
-        display: block;
+        display: none;
         font-size: 14px;
         font-weight: normal;
         letter-spacing: 5px;
@@ -332,8 +365,8 @@
 
       .partner-logo {
         display: block;
-        height: 76px;
-        line-height: 76px;
+        height: auto;
+        line-height: normal;
         white-space: nowrap;
       }
 
@@ -345,15 +378,15 @@
       }
 
       .partner-item.uludag img {
-        width: 110px;
+        width: 64px;
       }
 
       .partner-item.deqx img {
-        width: 150px;
+        width: 86px;
       }
 
       .partner-item.sika img {
-        width: 64px;
+        width: 42px;
       }
 
       @media (max-width: 900px), (orientation: portrait) {
@@ -391,8 +424,16 @@
           font-size: 11px;
         }
 
+        .viewer-copy p {
+          font-size: 10px;
+          line-height: 1.35;
+          max-width: 300px;
+        }
+
         .viewer-copy h1 {
-          font-size: 34px;
+          font-size: 29px;
+          line-height: 1.04;
+          white-space: nowrap;
         }
 
         .canvas-frame {
@@ -469,18 +510,36 @@
         }
 
         .partner-strip {
+          display: table;
           margin-bottom: 18px;
+          max-width: 320px;
+          position: relative;
+          right: auto;
+          table-layout: fixed;
+          top: auto;
+          width: 100%;
+        }
+
+        .partner-kicker {
+          caption-side: top;
+          display: table-caption;
+          font-size: 10px;
+          margin: 0 0 8px;
+          text-align: center;
         }
 
         .partner-item {
+          display: table-cell;
           padding: 0 5px;
+          width: 33.333%;
         }
 
         .partner-title {
+          display: none;
           font-size: 10px;
           font-weight: normal;
           letter-spacing: 2.8px;
-          margin-bottom: 10px;
+          margin-bottom: 0;
         }
 
         .partner-logo {
@@ -498,6 +557,12 @@
 
         .partner-item.sika img {
           width: 42px;
+        }
+      }
+
+      @media (max-width: 360px) {
+        .viewer-copy h1 {
+          font-size: 26px;
         }
       }
 
@@ -530,12 +595,15 @@
           <div class="viewer-copy">
             <span>Stel jouw uitvoering samen</span>
             <h1>Maak de Batavia van jou.</h1>
+            <p>Kwaliteit zit in elk detail. Daarom werkt Batavia met toonaangevende marinespecialisten: DEQX en Sika&reg; voor het hoogwaardige teakdeksysteem en Uludag Vinyl voor de duurzame premium bekleding.</p>
           </div>
           <div class="canvas-frame loading" id="canvas-frame">
             <div class="loader" id="loader">Boot wordt geladen...</div>
             <canvas id="boat-canvas" width="1085" height="1450" aria-label="Batavia boot met gekozen romp-, kussen- en teakdeckkleur"></canvas>
           </div>
+          <p class="viewer-note">Kleuren op het scherm kunnen afwijken van de werkelijke materialen.</p>
           <div class="partner-strip" aria-label="Materiaalpartners">
+            <span class="partner-kicker">Onze partners:</span>
             <div class="partner-item uludag">
               <span class="partner-title">Kussens</span>
               <span class="partner-logo"><img src="images/partner-uludag.png?v=1" alt="Uludag Vinyl"></span>
@@ -549,7 +617,6 @@
               <span class="partner-logo"><img src="images/partner-sika.svg?v=1" alt="Sika"></span>
             </div>
           </div>
-          <p class="viewer-note">Kleuren op het scherm kunnen afwijken van de werkelijke materialen.</p>
         </section>
 
         <aside class="controls">
@@ -564,18 +631,18 @@
           </section>
           <section class="control-group" id="panel-cushions">
             <div class="control-heading"><h2>Kussens</h2><span id="chosen-cushions">Origineel</span></div>
-            <p class="control-subtitle">Marine vinyl &bull; Uludag Vinyl</p>
+            <p class="control-subtitle">Onderhoudsvrije premium bekleding van Uludag Vinyl</p>
             <div class="swatches" id="swatches-cushions"></div>
             <button class="original-link" type="button" id="original-cushions">Gebruik originele kleur</button>
           </section>
           <section class="control-group" id="panel-teak">
             <div class="control-heading"><h2>Teakdeck</h2><span id="chosen-teak">Origineel</span></div>
-            <p class="control-subtitle">Engineered deck system &bull; DEQX met Sika</p>
+            <p class="control-subtitle">DEQX deksysteem van 100% synthetisch Sika&reg;-teak</p>
             <div class="swatches" id="swatches-teak"></div>
             <button class="original-link" type="button" id="original-teak">Gebruik originele kleur</button>
           </section>
           <button class="download-button" type="button" id="download-button" disabled>
-            <span>Download jouw ontwerp</span><span aria-hidden="true">v</span>
+            <span>Download jouw ontwerp</span>
           </button>
           <p class="save-note">Je ontwerp wordt als scherpe PNG opgeslagen.</p>
         </aside>
@@ -606,10 +673,10 @@
             { name: "Lichtgrijs", value: "#b7b8b5" }
           ],
           teak: [
-            { name: "Naturel teak", value: "#c98f4d" },
-            { name: "Honing teak", value: "#d6a864" },
-            { name: "Licht eiken", value: "#d4bd91" },
-            { name: "Vergrijsd teak", value: "#928b7b" }
+            { name: "Borneo (cool touch !)", value: "#c98f4d" },
+            { name: "Ibiza island", value: "#d6a864" },
+            { name: "British Pearl", value: "#d4bd91" },
+            { name: "Antarctica (cool touch !)", value: "#aaa79e" }
           ]
         };
         var state = { hull: null, cushions: null, teak: null };
